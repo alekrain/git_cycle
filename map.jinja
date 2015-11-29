@@ -1,0 +1,24 @@
+#======================================================================
+# SaltStack State File 
+#
+# NAME: map.jinja
+# VERSION: 0.1
+# AUTHOR:  Tant, Alek - SmartAlek Solutions
+# DATE  : 2015.05.21
+#
+# PURPOSE: Maps out the admin group based on the OS.
+#
+# CHANGE LOG:
+#
+# NOTES:
+#
+#
+
+{% set admin_group = salt['grains.filter_by']({
+  'RedHat': {
+    'group_name': 'wheel',
+    },
+  'Debian': {
+    'group_name': 'sudo',
+    },
+}) %}
