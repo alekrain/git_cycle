@@ -1,9 +1,11 @@
 # GitCycle
 A process for config management on snowflake servers.
 
-Git Cycle is a process that I created to help in small-ish environments where Linux servers are often unique little snowflakes and the admins are accustomed to making changes on the fly rather than through config management. By using the Git Cycle, I only had to convince the admins to git add and git commit the config files they were changing on those systems.
+GitCycle is a process that I created to help in small-ish environments where Linux servers are often unique little snowflakes and the admins are accustomed to making changes on the fly rather than through config management. By using the GitCycle, I only had to convince the admins to git add and git commit the config files they were changing on those systems.
 
 I developed this methodology using SaltStack as my config management system, but there's no reason why it can't be used in other systems. However, everything here is based on using SaltStack.
+
+I've also included some of my original Salt states that I used in conjunction with GitCycle. You should have the idea of how this works after looking at the first.
 
 **Overview Example:**
 1. Admin makes a change the /etc/nagios/nrpe.cfg

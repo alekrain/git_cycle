@@ -1,0 +1,8 @@
+Would you like to merge the config from the existing psad installation:        n;
+Preserve any user modfications in etc psad auto_dl:        n;
+Would you like alerts sent to a different address:        n;
+Would you like psad to only parse specific strings in iptables messages:        n;
+First is it ok to leave the HOME_NET setting as any:        y;
+Would you like to enable DShield alerts:        n;
+Would you like to install the latest signatures from http www cipherdyne org psad signatures:        n;
+Enable psad at boot time:        y;

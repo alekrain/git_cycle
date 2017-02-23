@@ -1,0 +1,66 @@
+#=========================================================================================
+# SaltStack State File
+#
+# NAME: ntp/map.jinja
+# VERSION: 0.1
+# AUTHOR:  Tant, Alek - SmartAlek Solutions
+# DATE  : 2015.06.13
+#
+# PURPOSE: Map out differences between RedHat and Debian into common variables.
+#
+# CHANGE LOG:
+#
+# NOTES: Currently works with machines where os_family is:
+#   Debian
+#   CentOS
+#
+
+{% set ntp_vars = salt['grains.filter_by']({
+  'RedHat': {
+    'package': 'ntp',
+    'service': 'ntpd',
+    'conf': '/etc/ntp.conf',
+  },
+  'Debian': {
+    'package': 'ntp',
+    'service': 'ntp',
+    'conf': '/etc/ntp.conf',
+  }
+}) %}
+
+# Set the NTPd server based on the location of the minion. This of course
+# assumes that your hostnames are indicative of a location.
+{% set hostname = salt.grains.get('id') %}
+{% if 'location1' in hostname %}
+  {{ salt.grains.setval('site', 'location1') }}
+{% elif 'location2' in hostname %}
+  {{ salt.grains.setval('site', 'location2') }}
+{% else %}
+  {{ salt.grains.setval('site', 'default') }}
+{% endif %}
+{% set ntp_network_vars = salt.grains.filter_by({
+  'location1' : {
+    'ntp_server' : 'server 192.168.1.1 prefer',
+    'ntp_network' : 'restrict 192.168.1.0 mask 255.255.255.0 nomodify notrap',
+    },
+  'location2' : {
+    'ntp_server' : 'server 10.0.0.1 prefer',
+    'ntp_network' : 'restrict 10.0.0.0 mask 255.0.0.0 nomodify notrap',
+    },
+  'default' : {
+    'ntp_server' : '#',
+    'ntp_network' : '#restrict 192.168.1.0 mask 255.255.255.0 nomodify notrap',
+    },
+}, 'site') %}
+{{ salt.grains.delval('site') }}
+
+
+{% if salt.grains.get('roles') is defined and salt.grains.get('roles') is iterable %}
+  {% if 'ntpd' in salt.grains.get('roles') %}
+    {% set ntp_config = 'ntpd.conf' %}
+  {% else %}
+    {% set ntp_config = 'ntp.conf' %}
+  {% endif %}
+{% else %}
+  {% set ntp_config = 'ntp.conf' %}
+{% endif %}

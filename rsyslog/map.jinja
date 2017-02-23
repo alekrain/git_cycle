@@ -1,0 +1,17 @@
+#=========================================================================================
+# SaltStack State File
+#
+# NAME: rsyslog/map.jinja
+# VERSION: 0.1
+# AUTHOR:  Tant, Alek - SmartAlek Solutions
+# DATE  : 2015.06.26
+#
+# PURPOSE: Setup rsyslog configuration.
+#
+# CHANGE LOG:
+#
+# NOTES:
+
+{% if salt.grains.get('roles') is defined and salt.grains.get('roles') is iterable %}
+  {% set rsyslog_config = 'rsyslog.conf' %}
+{% endif %}

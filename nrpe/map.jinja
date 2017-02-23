@@ -1,0 +1,31 @@
+#=========================================================================================
+# SaltStack State File 
+#
+# NAME: nrpe/map.jinja
+# VERSION: 0.1
+# AUTHOR:  Tant, Alek - SmartAlek Solutions
+# DATE  : 2015.06.13
+#
+# PURPOSE: Map out differences between RedHat and Debian into common variables.
+#
+# CHANGE LOG:
+#
+# NOTES: Currently works with machines where os_family is:
+#   Debian
+#   CentOS
+#
+
+{% set nrpe_vars = salt['grains.filter_by']({
+  'RedHat' : {
+    'package' : 'nrpe',
+    'service' : 'nrpe',
+    'conf' : '/etc/nagios/nrpe.cfg',
+    'plugins_dir' : '/usr/lib64/nagios/plugins',
+  },
+  'Debian' : {
+    'package' : 'nagios-nrpe-server',
+    'service' : 'nagios-nrpe-server',
+    'conf' : '/etc/nagios/nrpe.cfg',
+    'plugins_dir' : '/usr/lib/nagios/plugins',
+  }
+}) %}

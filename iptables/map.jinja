@@ -1,0 +1,29 @@
+#=========================================================================================
+# SaltStack Jinja Map File
+#
+# NAME: iptables/map.jinja
+# VERSION: 0.1
+# AUTHOR:  Tant, Alek - SmartAlek Solutions
+# DATE  : 2015.06.13
+#
+# PURPOSE: Map out differences between RedHat and Debian into common variables.
+#
+# CHANGE LOG:
+#
+# NOTES: Currently works with machines where os_family is:
+#   Debian
+#   CentOS
+#
+
+{% set iptables_params = salt['grains.filter_by']({
+  'RedHat': {
+    'configuration' : '/etc/sysconfig/iptables',
+    'servicename' : 'iptables',
+    'service_command' : '/sbin/service',
+    },
+  'Debian': {
+    'configuration' : '/etc/iptables/rules.v4',
+    'servicename' : 'iptables-persistent',
+    'service_command' : '/usr/sbin/service',
+    },
+}) %}
